@@ -6,10 +6,7 @@ const BlogSchema = new Schema({
         ref: "User",
         required: true,
     },
-    name: {
-        type: String,
-        required: true,
-    },
+
     title: {
         type: String,
         required: true,
