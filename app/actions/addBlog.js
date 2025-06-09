@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import connectDB from "@/db/database";
 import Blog from "@/db/Blog";
 import { getSessionUser } from "@/utils/getSessionUser";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 
 async function addBlog(formData) {
     await connectDB();
@@ -22,8 +22,11 @@ async function addBlog(formData) {
         content: formData.get("content"),
     };
 
-    await new Blog(blogData).save();
+    const newBlog = new Blog(blogData);
+    await newBlog.save();
+
     console.log("Blog added successfully:", blogData);
     revalidatePath("/", "layout");
+    redirect(`/${newBlog._id.toString()}`);
 }
 export { addBlog };
